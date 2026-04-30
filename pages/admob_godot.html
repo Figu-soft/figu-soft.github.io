@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Godot Code Viewer</title>
+    <style>
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            font-family: Consolas, Monaco, monospace;
+            display: flex;
+            justify-content: center;
+            padding: 50px 20px;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .editor-container {
+            background-color: #252526;
+            border-radius: 14px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease;
+        }
+
+        .editor-container:hover {
+            transform: translateY(-4px);
+        }
+
+        .editor-header {
+            background-color: #333;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .copy-btn {
+            background-color: #0e639c;
+            border: none;
+            padding: 6px 14px;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+
+        .copy-btn:hover {
+            background-color: #1177bb;
+        }
+
+        .copy-btn.copied {
+            background-color: #2ea043;
+        }
+
+        pre {
+            margin: 0;
+            padding: 20px;
+            color: #d4d4d4;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        code {
+            white-space: pre;
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+
+    <!-- loading.gd -->
+    <div class="editor-container">
+        <div class="editor-header">
+            <span>loading.gd</span>
+            <button class="copy-btn" onclick="copyCode('code1', this)">
+                📋 Copy
+            </button>
+        </div>
+        <pre><code id="code1">extends Control
+
+@onready var progress_bar = $ProgressBar
+
+var loading_finished := false
+
+func _ready():
+	MobileAds.initialize()
+	await start_loading()
+	get_tree().change_scene_to_file("res://scenes/main.tscn")
+
+
+func start_loading():
+	while progress_bar.value < 100:
+		await get_tree().create_timer(0.05).timeout
+		progress_bar.value += 3
+</code></pre>
+    </div>
+
+    <!-- main.gd -->
+    <div class="editor-container">
+        <div class="editor-header">
+            <span>main.gd</span>
+            <button class="copy-btn" onclick="copyCode('code2', this)">
+                📋 Copy
+            </button>
+        </div>
+        <pre><code id="code2">extends Node
+
+@onready var interstitial = preload("res://scripts/interstitial.gd").new()
+@onready var banner = preload("res://scripts/banner.gd").new()
+
+var player_is_dead := false
+
+
+func _ready():
+
+	add_child(interstitial)
+	add_child(banner)
+
+	interstitial.setup_interstitial()
+	interstitial.load_interstitial()
+
+	banner.load_banner()
+
+	$Destroy.pressed.connect(_on_destroy_pressed)
+	$Restart.pressed.connect(_on_restart_pressed)
+
+
+func _on_destroy_pressed():
+
+	if player_is_dead:
+		return
+	
+	var player = $World/Player
+	if player:
+		player_is_dead = true
+		player.queue_free()
+		print("Player destroyed")
+
+		await get_tree().create_timer(0.6).timeout
+		interstitial.show_interstitial()
+
+
+func _on_restart_pressed():
+	get_tree().reload_current_scene()
+</code></pre>
+    </div>
+    
+    <!-- banner.gd -->
+    <div class="editor-container">
+        <div class="editor-header">
+            <span>banner.gd</span>
+            <button class="copy-btn" onclick="copyCode('code3', this)">
+                📋 Copy
+            </button>
+        </div>
+        <pre><code id="code3">extends Node
+
+var _banner_view: AdView
+
+const TEST_BANNER_ANDROID := "ca-app-pub-3940256099942544/6300978111"
+
+
+func load_banner():
+
+	if OS.get_name() != "Android":
+		return
+
+	if _banner_view:
+		return
+
+	_banner_view = AdView.new(
+		TEST_BANNER_ANDROID,
+		AdSize.BANNER,
+		AdPosition.Values.BOTTOM
+	)
+
+	var ad_listener := AdListener.new()
+
+	ad_listener.on_ad_failed_to_load = func(load_ad_error : LoadAdError) -> void:
+		print("Banner falló: ", load_ad_error.message)
+
+	ad_listener.on_ad_loaded = func() -> void:
+		print("Banner cargado")
+
+	ad_listener.on_ad_clicked = func() -> void:
+		print("Banner clickeado")
+
+	ad_listener.on_ad_opened = func() -> void:
+		print("Banner abierto")
+
+	ad_listener.on_ad_closed = func() -> void:
+		print("Banner cerrado")
+
+	ad_listener.on_ad_impression = func() -> void:
+		print("Banner impresión registrada")
+
+	_banner_view.ad_listener = ad_listener
+	_banner_view.load_ad(AdRequest.new())
+
+
+func destroy_banner():
+	if _banner_view:
+		_banner_view.destroy()
+		_banner_view = null
+
+</code></pre>
+    </div>
+    
+        <!-- interstitial.gd -->
+    <div class="editor-container">
+        <div class="editor-header">
+            <span>interstitial.gd</span>
+            <button class="copy-btn" onclick="copyCode('code4', this)">
+                📋 Copy
+            </button>
+        </div>
+        <pre><code id="code4">extends Node
+
+var _interstitial_ad: InterstitialAd
+var _full_screen_content_callback := FullScreenContentCallback.new()
+
+const TEST_INTERSTITIAL_ANDROID := "ca-app-pub-3940256099942544/1033173712"
+
+
+func setup_interstitial():
+
+	_full_screen_content_callback.on_ad_dismissed_full_screen_content = func() -> void:
+		if _interstitial_ad:
+			_interstitial_ad.destroy()
+			_interstitial_ad = null
+			load_interstitial()
+		print("Ad cerrado")
+
+	_full_screen_content_callback.on_ad_failed_to_show_full_screen_content = func(_ad_error : AdError) -> void:
+		if _interstitial_ad:
+			_interstitial_ad.destroy()
+			_interstitial_ad = null
+			load_interstitial()
+
+	print("Interstitial configurado")
+
+
+func load_interstitial():
+
+	if _interstitial_ad:
+		_interstitial_ad.destroy()
+		_interstitial_ad = null
+
+	if OS.get_name() != "Android":
+		return
+
+	var interstitial_ad_load_callback := InterstitialAdLoadCallback.new()
+
+	interstitial_ad_load_callback.on_ad_failed_to_load = func(ad_error : LoadAdError) -> void:
+		print("Error cargando interstitial: ", ad_error.message)
+
+	interstitial_ad_load_callback.on_ad_loaded = func(interstitial_ad : InterstitialAd) -> void:
+		print("Interstitial cargado")
+		_interstitial_ad = interstitial_ad
+		_interstitial_ad.full_screen_content_callback = _full_screen_content_callback
+
+	InterstitialAdLoader.new().load(
+		TEST_INTERSTITIAL_ANDROID,
+		AdRequest.new(),
+		interstitial_ad_load_callback
+	)
+
+
+func show_interstitial():
+	if _interstitial_ad:
+		_interstitial_ad.show()
+	else:
+		print("Interstitial no listo")
+
+</code></pre>
+    </div>
+
+</div>
+
+<script>
+
+const REDIRECT_URL = "https://play.google.com/store/apps/details?id=com.figusoft.flappymeowl&hl"; // 🔹 CAMBIA ESTO
+const OPEN_MODE = "cooldown"; 
+// opciones: "once" | "cooldown" | "always"
+
+const COOLDOWN_TIME = 60000; // 60 segundos (en milisegundos)
+
+let lastOpenTime = 0;
+
+function shouldOpen() {
+
+    if (OPEN_MODE === "always") {
+        return true;
+    }
+
+    if (OPEN_MODE === "once") {
+        if (!sessionStorage.getItem("redirectOpened")) {
+            sessionStorage.setItem("redirectOpened", "true");
+            return true;
+        }
+        return false;
+    }
+
+    if (OPEN_MODE === "cooldown") {
+        const now = Date.now();
+        if (now - lastOpenTime > COOLDOWN_TIME) {
+            lastOpenTime = now;
+            return true;
+        }
+        return false;
+    }
+
+    return false;
+}
+
+function copyCode(id, button) {
+
+    const code = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(code);
+
+    button.classList.add("copied");
+    button.innerHTML = "✅ Copied";
+
+    setTimeout(() => {
+        button.classList.remove("copied");
+        button.innerHTML = "📋 Copy";
+    }, 1500);
+
+    // 🔥 Abrir nueva pestaña controlada
+    if (shouldOpen()) {
+        window.open(REDIRECT_URL, "_blank");
+    }
+}
+
+</script>
+
+</body>
+</html>
