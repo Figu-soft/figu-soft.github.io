@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "versionCode": 4,
   "forceUpdate": false,
-  "title": "Nueva actualización disponible",
-  "message": "Hay una nueva versión de PassGod disponible.",
+  "title": "update_title",
+  "message": "update_message",
   "playStoreUrl": "https://play.google.com/store/apps/details?id=com.figusoft.passgod"
 }
