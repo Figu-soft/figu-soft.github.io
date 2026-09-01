@@ -1,15 +1,249 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Figu-soft</title>
+
+    <title>Figusoft — Indie Game Studio</title>
+
+    <meta
+        name="description"
+        content="Figusoft es un estudio independiente dedicado al desarrollo de videojuegos."
+    >
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <h1>¡Hola!</h1>
-    <p>Esta es la página de prueba de Figu-soft.</p>
+    <!-- NAVBAR -->
+    <header class="navbar">
+
+        <a href="#inicio" class="logo">
+            Figusoft
+        </a>
+
+        <nav>
+            <a href="#inicio">Inicio</a>
+            <a href="#juegos">Juegos</a>
+            <a href="#nosotros">Nosotros</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+
+    </header>
+
+
+    <!-- HERO -->
+    <main>
+
+        <section id="inicio" class="hero">
+
+            <div class="hero-content">
+
+                <p class="eyebrow">INDIE GAME STUDIO</p>
+
+                <h1>
+                    Creamos mundos.
+                    <span>Una aventura a la vez.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Figusoft es un estudio independiente enfocado en crear
+                    videojuegos originales, divertidos y memorables.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a href="#juegos" class="button primary">
+                        Ver nuestros juegos
+                    </a>
+
+                    <a href="#nosotros" class="button secondary">
+                        Conócenos
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- JUEGOS -->
+        <section id="juegos" class="section games">
+
+            <div class="section-header">
+
+                <p class="eyebrow">NUESTROS JUEGOS</p>
+
+                <h2>
+                    Proyectos
+                </h2>
+
+                <p>
+                    Una selección de nuestros juegos y proyectos.
+                </p>
+
+            </div>
+
+
+            <div class="games-grid">
+
+                <article class="game-card">
+
+                    <div class="game-placeholder">
+                        <span>GAME</span>
+                    </div>
+
+                    <div class="game-info">
+
+                        <h3>Próximamente</h3>
+
+                        <p>
+                            Estamos trabajando en nuevas experiencias
+                            para jugadores de todo el mundo.
+                        </p>
+
+                        <span class="status">
+                            En desarrollo
+                        </span>
+
+                    </div>
+
+                </article>
+
+
+                <article class="game-card">
+
+                    <div class="game-placeholder">
+                        <span>GAME</span>
+                    </div>
+
+                    <div class="game-info">
+
+                        <h3>Próximamente</h3>
+
+                        <p>
+                            Más aventuras, ideas y mundos están por llegar.
+                        </p>
+
+                        <span class="status">
+                            En desarrollo
+                        </span>
+
+                    </div>
+
+                </article>
+
+
+                <article class="game-card">
+
+                    <div class="game-placeholder">
+                        <span>GAME</span>
+                    </div>
+
+                    <div class="game-info">
+
+                        <h3>Próximamente</h3>
+
+                        <p>
+                            Nuestro próximo proyecto podría convertirse
+                            en tu nueva aventura favorita.
+                        </p>
+
+                        <span class="status">
+                            Próximamente
+                        </span>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- NOSOTROS -->
+        <section id="nosotros" class="section about">
+
+            <div class="about-content">
+
+                <p class="eyebrow">SOBRE FIGUSOFT</p>
+
+                <h2>
+                    Pequeño estudio.
+                    <span>Grandes ideas.</span>
+                </h2>
+
+                <p>
+                    Somos un estudio independiente que disfruta creando
+                    videojuegos y experimentando con nuevas ideas.
+                    Nuestro objetivo es desarrollar experiencias que
+                    sean sencillas de disfrutar pero difíciles de olvidar.
+                </p>
+
+                <p>
+                    Desde pequeños proyectos independientes hasta nuevas
+                    aventuras, Figusoft busca convertir ideas en juegos.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONTACTO -->
+        <section id="contacto" class="section contact">
+
+            <div class="contact-content">
+
+                <p class="eyebrow">CONTACTO</p>
+
+                <h2>
+                    ¿Hablamos?
+                </h2>
+
+                <p>
+                    Si quieres conocer más sobre nuestros proyectos,
+                    colaborar o simplemente ponerte en contacto,
+                    escríbenos.
+                </p>
+
+                <a
+                    href="mailto:contacto@figusoft.com"
+                    class="button primary"
+                >
+                    Contactar
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <div class="footer-content">
+
+            <strong>Figusoft</strong>
+
+            <p>
+                © <span id="year"></span> Figusoft. Todos los derechos reservados.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <script src="script.js"></script>
 
 </body>
+
 </html>
 
