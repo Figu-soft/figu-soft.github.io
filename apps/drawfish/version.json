@@ -1,0 +1,8 @@
+{
+  "versionCode": 5,
+  "version": "1.0.5",
+  "title": "New Update Available!",
+  "message": "We added new aquarium bubbles and smoother drawing tools.",
+  "playStoreUrl": "https://play.google.com/store/apps/details?id=com.figusoft.drawfish",
+  "forceUpdate": false
+}
